@@ -299,9 +299,35 @@ GROUP BY g.GenreName
 
 --Write a SELECT query that utilizes a JOIN with 3 or more tables, at 2 OPERATORS, a GROUP BY  clause with an aggregate function and a HAVING clause--
 
-SELECT tr.TrackTitle, al.Title, ar.ArtistName
+SELECT COUNT(tr.PlayCount) AS GreatSongs, g.GenreName, al.Title
 FROM Track tr
-JOIN Album al 
+JOIN Genre G
+ON tr.GenreID = g.GenreId
+JOIN Album al
 ON tr.AlbumID = al.AlbumID
-JOIN Artist ar
-ON al.ArtistID = ar.ArtistID
+WHERE tr.PlayCount > 400 AND g.GenreName = 'Shoegaze' or g.GenreName = 'Punk'
+GROUP BY g.GenreName, al.Title
+Having COUNT(tr.PlayCount) >1
+
+--Design a NONCLUSTERED INDEX with ONE KEY COLUMN that improves the performance of one of the above queries--
+
+CREATE NONCLUSTERED INDEX IX_Track_PlayCount ON Track
+(
+    PlayCount
+)
+
+--Design a NONCLUSTERED INDEX with TWO KEY COLUMNs that improves the performance of one of the above queries--
+
+CREATE NONCLUSTERED INDEX IX_Track_TrackTitle_PlayCount ON Track
+(
+    TrackTitle,
+    PlayCount
+)
+
+--Design a NONCLUSTERED INDEX with at least ONE KEY COLUMN and one INCLUDED COLUMN--
+
+CREATE NONCLUSTERED INDEX IX_Track_TrackTitle_Rating ON Track
+(
+    TrackTitle
+)
+INCLUDE (Rating);
