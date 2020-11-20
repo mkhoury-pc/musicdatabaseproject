@@ -280,6 +280,16 @@ JOIN Album al
 ON tr.AlbumID = al.AlbumID
 GROUP BY al.Title
 
+--Write a SELECT statement that utilizes a CALCULATED FIELD--
+
+ SELECT ar.ArtistName +' ' + 'is so EMO!'
+  FROM Artist ar
+  JOIN ArtistGenre ag
+  on ar.Artistid = ag.ArtistID
+  JOIN Genre g
+  ON ag.GenreID = g.GenreID
+  WHERE GenreName = 'Emo'
+
 --Write a SELECT query that utilizes a SUBQUERY--
 
 SELECT TrackTitle, PlayCount
